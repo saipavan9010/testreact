@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { Component } from 'react';
 import axios from 'axios';
 import SimpleReactValidator from 'simple-react-validator';
-class Register extends React.Component {
+class Register extends Component {
 
   constructor(props) {
     super(props);
@@ -24,29 +24,18 @@ class Register extends React.Component {
         alert(res.data.message);
         window.location.reload();
       }).catch(function (error) {
-        alert("not created");
+        alert(error.response.data.message);
       });
     } else {
       this.validator.showMessages();
-      // rerender to show messages for the first time
-      // you can use the autoForceUpdate option to do this automatically`
       this.forceUpdate();
     }
-  
-    
-   
-    
-    event.preventDefault();
+       event.preventDefault();
   }
 
-  
-
-
-
- 
   render() {
     return (
-      <div>
+      <div className="Container">
       <h3>Register Form</h3>
       <form onSubmit={this.handleSubmit}>
         

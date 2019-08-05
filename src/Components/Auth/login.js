@@ -1,8 +1,8 @@
 import React from 'react';
 import axios from 'axios';
 import logo from '../../logo.svg';
-import './login.css';
-
+import SimpleReactValidator from 'simple-react-validator';
+// import '../../login.css'; 
 import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
 
 class Login extends React.Component {
@@ -10,7 +10,13 @@ class Login extends React.Component {
   constructor(props) {
     super(props);
     this.state = {email: '',password:''};
+    this.validator = new SimpleReactValidator();
+    
    
+  }
+  componentDidMount(){
+  
+    
   }
   
 
@@ -20,37 +26,44 @@ class Login extends React.Component {
   }
 
   handleSubmit= (event)=> {
-    axios.post(`http://localhost:3001/users/login`, this.state)
-      .then(res => {
-        alert(res.data.message);
-       // window.location.reload();
-      }).catch(function (error) {
-        console.log(error);
-      });
+   if (this.validator.allValid()) {
+      axios.post(`http://localhost:3001/users/login`, this.state)
+        .then(res => {
+          alert(res.data.message);
+          localStorage.setItem('token',res.data.data.token);
+        // window.location.reload();
+        }).catch(function (error) {
+          console.log(error);
+        });
+   } else {
+      this.validator.showMessages();
+      this.forceUpdate();
+   }  
    event.preventDefault();
   }
  
   render() {
     return (
-      <div className="wrapper fadeInDown">
-         <div id="formContent">
-          <div className="fadeIn first">
-          <img src={logo} className="App-logo" alt="logo" />
+      <div className="Container">
+        <h3>Login Form</h3>
+        <form onSubmit={this.handleSubmit}>
+          <div className="form-group col-md-6">
+              <label >Email:</label>
+              <input type="text" className="form-control "  name="email" value={this.state.email} onChange={this.handleChange}/>
+              {this.validator.message('email', this.state.email, 'required|email')}    
           </div>
-           
-          <form onSubmit={this.handleSubmit}>
-          <input type="text" id="login" className="fadeIn second"name="email" value={this.state.email} onChange={this.handleChange} placeholder="Email"/>
-          <input type="password" id="password" className="fadeIn third" name="password" value={this.state.password} onChange={this.handleChange} placeholder="password"/>
-          <input type="submit" className="fadeIn fourth" value="Log In"/>
-          </form>
-
-          <div id="formFooter">
+          <div className="form-group col-md-6">
+            <label >Password:</label>
+            <input type="password" className="form-control "  name="password" value={this.state.password} onChange={this.handleChange}/>
+            {this.validator.message('password', this.state.password, 'required|min:6')}      
+         </div>
+          <div>
+            <button type="submit" className="btn btn-primary">Login</button>
             <Link  className="underlineHover" to="register">Sign Up</Link>
           </div>
-
-          </div>
-/
-       </div>
+        </form>
+      </div>
+      
     );
   }
 }
