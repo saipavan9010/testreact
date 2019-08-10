@@ -5,7 +5,9 @@ import './index.css';
 import App from './App';
 import Login from './Components/Auth/login';
 import Register from './Components/Auth/register';
+import Dashboard from './Components/Admin/dashboard';
 import * as serviceWorker from './serviceWorker';
+import dotenv from 'dotenv'
 
 const routing = (
     <Router>
@@ -13,6 +15,7 @@ const routing = (
         <Route exact path="/" component={App} />
         <Route  path="/login" component={Login} />
         <Route  path="/register" component={Register} />
+        <Route  path="/dashboard" component={Dashboard} />
         
       </div>
     </Router>
