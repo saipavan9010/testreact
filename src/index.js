@@ -1,22 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
+import { Route,Switch, Link, BrowserRouter as Router } from 'react-router-dom'
+import {PrivateRoute} from './Helpers/PrivateRoute'
 import './index.css';
 import App from './App';
 import Login from './Components/Auth/login';
 import Register from './Components/Auth/register';
 import Dashboard from './Components/Admin/dashboard';
+import Userlist from './Components/Admin/users/userlist';
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+
 import * as serviceWorker from './serviceWorker';
 import dotenv from 'dotenv'
 
 const routing = (
     <Router>
       <div>
+        <Switch>
         <Route exact path="/" component={App} />
         <Route  path="/login" component={Login} />
         <Route  path="/register" component={Register} />
-        <Route  path="/dashboard" component={Dashboard} />
-        
+        <PrivateRoute  path="/dashboard" component={Dashboard} />
+        <PrivateRoute  path="/userlist" component={Userlist} />
+        </Switch>
       </div>
     </Router>
   )
