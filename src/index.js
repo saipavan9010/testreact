@@ -1,15 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { Route,Switch, Link, BrowserRouter as Router } from 'react-router-dom'
-import {PrivateRoute} from './Helpers/PrivateRoute'
+import {PrivateRoute} from './Helpers/PrivateRoute';
 import './index.css';
 import App from './App';
 import Login from './Components/Auth/login';
 import Register from './Components/Auth/register';
 import Dashboard from './Components/Admin/dashboard';
 import Userlist from './Components/Admin/users/userlist';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
-
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import * as serviceWorker from './serviceWorker';
 import dotenv from 'dotenv'
 
