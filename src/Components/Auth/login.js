@@ -3,7 +3,7 @@ import axios from 'axios';
 import logo from '../../logo.svg';
 import SimpleReactValidator from 'simple-react-validator';
 // import '../../login.css'; 
-import { Route, Link, BrowserRouter as Router } from 'react-router-dom'
+import { Route, Link,Redirect, BrowserRouter as Router } from 'react-router-dom'
 
 class Login extends React.Component {
 
@@ -11,15 +11,9 @@ class Login extends React.Component {
     super(props);
     this.state = {email: '',password:''};
     this.validator = new SimpleReactValidator();
-    
+    this.ApiUrl=process.env.REACT_APP_API_URL;
    
   }
-  componentDidMount(){
-  
-    
-  }
-  
-
   handleChange= (event) => {
     
     this.setState({[event.target.name]: event.target.value});
@@ -27,13 +21,13 @@ class Login extends React.Component {
 
   handleSubmit= (event)=> {
    if (this.validator.allValid()) {
-      axios.post(`http://localhost:3001/users/login`, this.state)
+      axios.post(this.ApiUrl+`/users/login`, this.state)
         .then(res => {
           alert(res.data.message);
           localStorage.setItem('token',res.data.data.token);
-        // window.location.reload();
+          this.props.history.push('/dashboard'); 
         }).catch(function (error) {
-          console.log(error);
+          console.log(error.response.data.message);
         });
    } else {
       this.validator.showMessages();

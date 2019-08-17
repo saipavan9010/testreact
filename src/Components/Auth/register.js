@@ -6,7 +6,6 @@ class Register extends Component {
   constructor(props) {
     super(props);
     this.state = {first_name: '',last_name:'',mobile_no:'',mobile_noerror:'',email:'',emailerror:'',user_name:'',user_nameerror:'',password:'',passworderror:''};
-
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.validator = new SimpleReactValidator();
