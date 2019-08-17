@@ -9,6 +9,7 @@ import Register from './Components/Auth/register';
 import Dashboard from './Components/Admin/dashboard';
 import Userlist from './Components/Admin/users/userlist';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
+import 'font-awesome/css/font-awesome.min.css';
 import * as serviceWorker from './serviceWorker';
 import dotenv from 'dotenv'
 

@@ -20,7 +20,9 @@ class Login extends React.Component {
   }
 
   handleSubmit= (event)=> {
+    console.log(this.state);
    if (this.validator.allValid()) {
+     
       axios.post(this.ApiUrl+`/users/login`, this.state)
         .then(res => {
           alert(res.data.message);
