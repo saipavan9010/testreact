@@ -1,16 +1,22 @@
 import React from "react";
 import Menu from '../layout/menu';
 import axios from 'axios';
+import ReactDOM from "react-dom";
+import { Button,Modal } from 'react-bootstrap';
+
 
 class UserList extends React.Component {
 constructor(props){
   super(props);
   this.state = {
-    userlist:[]
+    userlist:[],
+    lgShow:false,
+    setLgShow:false
   };
   this.ApiUrl=process.env.REACT_APP_API_URL;
- 
+  
 }
+
 
 componentWillMount(){
 this.getData();
@@ -20,7 +26,7 @@ getData(){
   const headertoken = localStorage.getItem("token");
   axios.get(this.ApiUrl+`/user/userslist`,{headers:{'Authorization': `Bearer ${headertoken}`}})
     .then(res => {
-     this.setState({userlist:res.data.data.user});
+     this.setState({userlist:res.data.data.user,show: true});
      }).catch(function (error) {
       console.log(error.response.data.message);
    });
@@ -35,7 +41,9 @@ userEdit=(id)=>{
     console.log(error);
  });
 }
-
+setLgShow=(bool)=>{
+  this.setState({lgShow:bool})
+}
 
 UserTableData() {
   return this.state.userlist.map((user, index) => {
@@ -54,27 +62,7 @@ UserTableData() {
 }
 
 
-render(){
-  return(
-  <div class="modal fade" id="myModal" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">Modal title</h4>
-      </div>
-      <div class="modal-body">
-        <p>One fine body&hellip;</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
-      </div>
-    </div>
-  </div>
-</div>
-  )
-}
+
 
 
 
@@ -102,6 +90,15 @@ render() {
           </table>
         
         </div>
+        <Button onClick={() => this.setLgShow(true)}>Large modal</Button>
+        <Modal size="lg" show={this.state.lgShow} onHide={() => this.setLgShow(false)} aria-labelledby="example-modal-sizes-title-lg">
+        <Modal.Header closeButton>
+          <Modal.Title id="example-modal-sizes-title-lg">
+            Large Modal
+          </Modal.Title>
+        </Modal.Header>
+        <Modal.Body>...</Modal.Body>
+      </Modal>
       </div>
     );
   }
