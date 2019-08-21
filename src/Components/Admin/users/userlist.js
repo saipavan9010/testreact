@@ -1,8 +1,10 @@
 import React from "react";
 import Menu from '../layout/menu';
+import UserForm from './userform';
+
 import axios from 'axios';
 import ReactDOM from "react-dom";
-import { Button,Modal } from 'react-bootstrap';
+import {Modal} from 'react-bootstrap';
 
 
 class UserList extends React.Component {
@@ -37,6 +39,7 @@ userEdit=(id)=>{
   axios.get(this.ApiUrl+`/user/detail/${id}`,{headers:{'Authorization': `Bearer ${headertoken}`}})
   .then(res => {
   console.log(res)
+  this.setState({lgShow:true})
    }).catch(function (error) {
     console.log(error);
  });
@@ -79,8 +82,8 @@ render() {
                 <th>Sno</th>
                 <th>First Name</th>
                 <th>Last Name</th>
-                <th>Email</th>
                 <th>Mobile</th>
+                <th>Email</th>
                 <th>Action</th>
               </tr>
             </thead>
@@ -90,14 +93,17 @@ render() {
           </table>
         
         </div>
-        <Button onClick={() => this.setLgShow(true)}>Large modal</Button>
+       
         <Modal size="lg" show={this.state.lgShow} onHide={() => this.setLgShow(false)} aria-labelledby="example-modal-sizes-title-lg">
         <Modal.Header closeButton>
           <Modal.Title id="example-modal-sizes-title-lg">
-            Large Modal
+            User Detail
           </Modal.Title>
         </Modal.Header>
-        <Modal.Body>...</Modal.Body>
+        <Modal.Body>
+          <UserForm/>
+
+        </Modal.Body>
       </Modal>
       </div>
     );
