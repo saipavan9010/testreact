@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import {Form,Container} from 'react-bootstrap';
+import {Form,Container,Col} from 'react-bootstrap';
 
 class UserForm extends React.Component {
     constructor(props){
@@ -16,15 +16,18 @@ class UserForm extends React.Component {
             <Container>
                 <Form>
                     <Form.Row>
-                        <Form.Group md="4" controlId="formGroupEmail">
+                   
+                        <Form.Group as={Col}  controlId="formGroupEmail">
                         <Form.Label>Email address</Form.Label>
                         <Form.Control type="email" placeholder="Enter email" />
                         </Form.Group>
-
-                        <Form.Group md="4" controlId="formGroupEmail">
-                        <Form.Label md="4">Email address</Form.Label>
+                   
+                   
+                        <Form.Group as={Col} controlId="formGroupEmail">
+                        <Form.Label >Email address</Form.Label>
                         <Form.Control  type="email" placeholder="Enter email" />
-                        </Form.Group> 
+                        </Form.Group>
+                   
                    </Form.Row>
                    <Form.Row>
                         <Form.Group md="4" controlId="formGroupEmail">
