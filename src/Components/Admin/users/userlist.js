@@ -13,7 +13,7 @@ constructor(props){
   this.state = {
     userlist:[],
     lgShow:false,
-    setLgShow:false
+    setLgShow:false,id: ''
   };
   this.ApiUrl=process.env.REACT_APP_API_URL;
   
@@ -36,10 +36,10 @@ getData(){
 
 userEdit=(id)=>{
   const headertoken = localStorage.getItem("token");
+  this.setState({lgShow:true,id:id});
   axios.get(this.ApiUrl+`/user/detail/${id}`,{headers:{'Authorization': `Bearer ${headertoken}`}})
   .then(res => {
-  console.log(res)
-  this.setState({lgShow:true})
+  // console.log(res.data.data.user)
    }).catch(function (error) {
     console.log(error);
  });
@@ -70,6 +70,7 @@ UserTableData() {
 
 
 render() {
+  const {id}=this.state;
   return (
      
     <div>
@@ -101,7 +102,8 @@ render() {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          <UserForm/>
+
+          <UserForm  id={id}/>
 
         </Modal.Body>
       </Modal>
