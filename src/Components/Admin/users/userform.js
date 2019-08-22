@@ -12,8 +12,8 @@ class UserForm extends React.Component {
         this.ApiUrl=process.env.REACT_APP_API_URL;
         
         }
-        componentWillMount(){
-            this.setData();
+        componentDidMount(){
+           this.setData()
         }  
         handleChange(event) {
          this.setState({[event.target.name]: event.target.value});
@@ -25,7 +25,7 @@ class UserForm extends React.Component {
             axios.get(this.ApiUrl+`/user/detail/${id}`,{headers:{'Authorization': `Bearer ${headertoken}`}})
             .then(res => {
             console.log(res.data.data.user);
-            this.setData(res.data.data.user);
+            this.setState(res.data.data.user);
              }).catch(function (error) {
               console.log(error);
            });
