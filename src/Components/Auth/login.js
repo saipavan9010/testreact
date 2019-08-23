@@ -29,7 +29,7 @@ class Login extends React.Component {
           localStorage.setItem('token',res.data.data.token);
           this.props.history.push('/dashboard'); 
         }).catch(function (error) {
-          console.log(error.response.data.message);
+          console.log(error);
         });
    } else {
       this.validator.showMessages();

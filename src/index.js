@@ -14,7 +14,7 @@ import * as serviceWorker from './serviceWorker';
 import dotenv from 'dotenv'
 
 const routing = (
-    <Router>
+    <Router >
       <div>
         <Switch>
         <Route exact path="/" component={App} />

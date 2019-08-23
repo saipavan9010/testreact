@@ -30,19 +30,12 @@ getData(){
     .then(res => {
      this.setState({userlist:res.data.data.user,show: true});
      }).catch(function (error) {
-      console.log(error.response.data.message);
+      console.log(error);
    });
 }
 
 userEdit=(id)=>{
-  const headertoken = localStorage.getItem("token");
   this.setState({lgShow:true,id:id});
-  axios.get(this.ApiUrl+`/user/detail/${id}`,{headers:{'Authorization': `Bearer ${headertoken}`}})
-  .then(res => {
-  // console.log(res.data.data.user)
-   }).catch(function (error) {
-    console.log(error);
- });
 }
 setLgShow=(bool)=>{
   this.setState({lgShow:bool})
