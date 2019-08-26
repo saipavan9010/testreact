@@ -1,10 +1,10 @@
 import React from "react";
-import Menu from '../layout/menu';
-import UserForm from './userform';
-
-import axios from 'axios';
 import ReactDOM from "react-dom";
-import {Modal} from 'react-bootstrap';
+import Menu from '../layout/menu';
+// import UserForm from './userform';
+import axios from 'axios';
+import {Modal,Form,Container,Col,Row,Button} from 'react-bootstrap';
+import SimpleReactValidator from 'simple-react-validator';
 
 
 class UserList extends React.Component {
@@ -13,10 +13,10 @@ constructor(props){
   this.state = {
     userlist:[],
     lgShow:false,
-    setLgShow:false,id: ''
+    setLgShow:false,id: '',first_name: '',last_name:'',mobile_no:'',email:'',user_name:'',password:''
   };
   this.ApiUrl=process.env.REACT_APP_API_URL;
-  
+  this.validator = new SimpleReactValidator();
 }
 
 
@@ -35,7 +35,17 @@ getData(){
 }
 
 userEdit=(id)=>{
+  const headertoken = localStorage.getItem("token");
   this.setState({lgShow:true,id:id});
+  axios.get(this.ApiUrl+`/user/detail/${id}`,{headers:{'Authorization': `Bearer ${headertoken}`}})
+  .then(res => {
+      this.setState(res.data.data.user);
+      
+
+   }).catch(function (error) {
+      console.log(error);
+ });
+  
 }
 setLgShow=(bool)=>{
   this.setState({lgShow:bool})
@@ -56,6 +66,28 @@ UserTableData() {
      )
   });
 }
+
+handleChange= (event) => {
+  this.setState({[event.target.name]: event.target.value});
+}
+
+handleSubmit= (event)=> {
+  if (this.validator.allValid()) {
+     const headertoken = localStorage.getItem("token"); 
+     axios.post(this.ApiUrl+`/user/update/${this.state.id}`, this.state,{headers:{'Authorization': `Bearer ${headertoken}`}})
+       .then(res => {
+         alert(res.data.message);
+         this.setState({lgShow:false});
+         this.getData();
+       }).catch(function (error) {
+         console.log(error);
+       });
+  } else {
+     this.validator.showMessages();
+     this.forceUpdate();
+  }  
+  event.preventDefault();
+ }
 
 
 
@@ -95,8 +127,45 @@ render() {
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
+        <Container>
+                    <Form onSubmit={this.handleSubmit}>
+                        <Form.Row>
+                    
+                            <Form.Group as={Col}  controlId="formGroupEmail">
+                            <Form.Label>First Name</Form.Label>
+                            <Form.Control type="text" name="first_name" placeholder="Enter First Name" value={this.state.first_name} onChange={this.handleChange}/>
+                            </Form.Group>
+                    
+                    
+                            <Form.Group as={Col} controlId="formGroupEmail">
+                            <Form.Label >Last Name</Form.Label>
+                            <Form.Control  type="text" name="last_name" placeholder="Enter Last Name" value={this.state.last_name} onChange={this.handleChange}/>
+                            </Form.Group>
+                    
+                    </Form.Row>
+                    <Form.Row>
+                            <Form.Group as={Col} controlId="formGroupEmail">
+                            <Form.Label>Email</Form.Label>
+                            <Form.Control type="email" name="email" placeholder="Enter email" value={this.state.email} onChange={this.handleChange}/>
+                            {this.validator.message('email', this.state.email, 'required|email')}
+                            </Form.Group>
 
-          <UserForm  id={id}/>
+                            <Form.Group as={Col} controlId="formGroupEmail">
+                            <Form.Label>Mobile Number</Form.Label>
+                            <Form.Control type="number" name="mobile_no" placeholder="Enter Mobile No" value={this.state.mobile_no} onChange={this.handleChange}/>
+                            {this.validator.message('mobile_no', this.state.mobile_no, 'required|phone')}
+                            </Form.Group>
+                        </Form.Row>
+                     <Form.Group as={Row}>
+                            <Col sm={{ span: 10, offset: 2 }}>
+                            <Button type="submit">Sign in</Button>
+                            </Col>
+                        </Form.Group>  
+
+                    </Form>
+                </Container> 
+
+          {/* <UserForm  id={id}/> */}
 
         </Modal.Body>
       </Modal>
