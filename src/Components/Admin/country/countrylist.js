@@ -7,7 +7,7 @@ import {Modal,Form,Container,Col,Row,Button} from 'react-bootstrap';
 import SimpleReactValidator from 'simple-react-validator';
 
 
-class UserList extends React.Component {
+class CountryList extends React.Component {
 constructor(props){
   super(props);
   this.state = {
@@ -175,4 +175,4 @@ render() {
 
 } 
 
-export default UserList
+export default CountryList
