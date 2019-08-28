@@ -11,22 +11,22 @@ class CountryList extends React.Component {
 constructor(props){
   super(props);
   this.state = {
-    userlist:[],
+    countrylist:[],
     lgShow:false,
-    setLgShow:false,id: '',first_name: '',last_name:'',mobile_no:'',email:'',user_name:'',password:''
+    setLgShow:false,id: '',country_code: '',country_name:''
   };
   this.ApiUrl=process.env.REACT_APP_API_URL;
   this.validator = new SimpleReactValidator();
 }
 
 
-componentWillMount(){
+componentWillMount(){ 
 this.getData();
 }  
 
 getData(){
   const headertoken = localStorage.getItem("token");
-  axios.get(this.ApiUrl+`/user/userslist`,{headers:{'Authorization': `Bearer ${headertoken}`}})
+  axios.get(this.ApiUrl+`/user/countrylist`,{headers:{'Authorization': `Bearer ${headertoken}`}})
     .then(res => {
      this.setState({userlist:res.data.data.user,show: true});
      }).catch(function (error) {
@@ -34,34 +34,30 @@ getData(){
    });
 }
 
-userEdit=(id)=>{
+countryEdit=(id)=>{
   const headertoken = localStorage.getItem("token");
   this.setState({lgShow:true,id:id});
-  axios.get(this.ApiUrl+`/user/detail/${id}`,{headers:{'Authorization': `Bearer ${headertoken}`}})
+  axios.get(this.ApiUrl+`/user/country/detail/${id}`,{headers:{'Authorization': `Bearer ${headertoken}`}})
   .then(res => {
       this.setState(res.data.data.user);
-      
-
-   }).catch(function (error) {
+    }).catch(function (error) {
       console.log(error);
  });
-  
 }
 setLgShow=(bool)=>{
+  
   this.setState({lgShow:bool})
 }
 
-UserTableData() {
-  return this.state.userlist.map((user, index) => {
-     const { _id,first_name, last_name, mobile_no,email } = user //destructuring
+CountryTableData() {
+  return this.state.countrylist.map((user, index) => {
+     const { _id,country_code, country_name} = user //destructuring
      return (
         <tr key={index}>
            <td>{index+1}</td>
-           <td>{first_name}</td>
-           <td>{last_name}</td>
-           <td>{mobile_no}</td>
-           <td>{email}</td>
-           <td><i className="fa fa-pencil-square-o"   aria-hidden="true" onClick={()=>this.userEdit(_id)}>Edit</i></td>
+           <td>{country_code}</td>
+           <td>{country_name}</td>
+           <td><i className="fa fa-pencil-square-o"   aria-hidden="true" onClick={()=>this.countryEdit(_id)}>Edit</i></td>
         </tr>
      )
   });
@@ -101,20 +97,19 @@ render() {
     <div>
       <Menu/>
         <div className="container">
-        <h3>UserList</h3>
+        <h3>CountryList</h3>
+        <Button type="button" onClick={()=>this.setLgShow(true)}><i className="fa fa-plus" ></i>Add</Button>
           <table className="table table-bordered">
             <thead>
               <tr>
                 <th>Sno</th>
-                <th>First Name</th>
-                <th>Last Name</th>
-                <th>Mobile</th>
-                <th>Email</th>
+                <th>Country Code</th>
+                <th>Country Name</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
-             {this.UserTableData()}
+             {this.CountryTableData()}
             </tbody>
           </table>
         
@@ -123,7 +118,7 @@ render() {
         <Modal size="lg" show={this.state.lgShow} onHide={() => this.setLgShow(false)} aria-labelledby="example-modal-sizes-title-lg">
         <Modal.Header closeButton>
           <Modal.Title id="example-modal-sizes-title-lg">
-            User Detail
+            Country Detail
           </Modal.Title>
         </Modal.Header>
         <Modal.Body>
@@ -132,30 +127,18 @@ render() {
                         <Form.Row>
                     
                             <Form.Group as={Col}  controlId="formGroupEmail">
-                            <Form.Label>First Name</Form.Label>
-                            <Form.Control type="text" name="first_name" placeholder="Enter First Name" value={this.state.first_name} onChange={this.handleChange}/>
+                            <Form.Label>Country Code</Form.Label>
+                            <Form.Control type="text" name="country_code" placeholder="Enter Country Code" value={this.state.country_code} onChange={this.handleChange}/>
                             </Form.Group>
                     
                     
                             <Form.Group as={Col} controlId="formGroupEmail">
-                            <Form.Label >Last Name</Form.Label>
-                            <Form.Control  type="text" name="last_name" placeholder="Enter Last Name" value={this.state.last_name} onChange={this.handleChange}/>
+                            <Form.Label >Country Name</Form.Label>
+                            <Form.Control  type="text" name="country_name" placeholder="Enter Country Name" value={this.state.country_name} onChange={this.handleChange}/>
                             </Form.Group>
                     
                     </Form.Row>
-                    <Form.Row>
-                            <Form.Group as={Col} controlId="formGroupEmail">
-                            <Form.Label>Email</Form.Label>
-                            <Form.Control type="email" name="email" placeholder="Enter email" value={this.state.email} onChange={this.handleChange}/>
-                            {this.validator.message('email', this.state.email, 'required|email')}
-                            </Form.Group>
-
-                            <Form.Group as={Col} controlId="formGroupEmail">
-                            <Form.Label>Mobile Number</Form.Label>
-                            <Form.Control type="number" name="mobile_no" placeholder="Enter Mobile No" value={this.state.mobile_no} onChange={this.handleChange}/>
-                            {this.validator.message('mobile_no', this.state.mobile_no, 'required|phone')}
-                            </Form.Group>
-                        </Form.Row>
+                   
                      <Form.Group as={Row}>
                             <Col sm={{ span: 10, offset: 2 }}>
                             <Button type="submit">Submit</Button>
