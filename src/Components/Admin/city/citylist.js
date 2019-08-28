@@ -7,13 +7,13 @@ import {Modal,Form,Container,Col,Row,Button} from 'react-bootstrap';
 import SimpleReactValidator from 'simple-react-validator';
 
 
-class CountryList extends React.Component {
+class CityList extends React.Component {
 constructor(props){
   super(props);
   this.state = {
-    countrylist:[],
+    citylist:[],
     lgShow:false,
-    setLgShow:false,id: '',country_code: '',country_name:''
+    setLgShow:false,id: '',country_id: '',city_name:''
   };
   this.ApiUrl=process.env.REACT_APP_API_URL;
   this.validator = new SimpleReactValidator();
@@ -26,20 +26,20 @@ this.getData();
 
 getData(){
   const headertoken = localStorage.getItem("token");
-  axios.get(this.ApiUrl+`/user/countrylist`,{headers:{'Authorization': `Bearer ${headertoken}`}})
+  axios.get(this.ApiUrl+`/user/citylist`,{headers:{'Authorization': `Bearer ${headertoken}`}})
     .then(res => {
-     this.setState({countrylist:res.data.country_data,show: true});
+     this.setState({citylist:res.data.city_data,show: true});
      }).catch(function (error) {
       console.log(error);
    });
 }
 
-countryEdit=(id)=>{
+cityEdit=(id)=>{
   const headertoken = localStorage.getItem("token");
   this.setState({lgShow:true,id:id});
-  axios.get(this.ApiUrl+`/user/country/detail/${id}`,{headers:{'Authorization': `Bearer ${headertoken}`}})
+  axios.get(this.ApiUrl+`/user/city/detail/${id}`,{headers:{'Authorization': `Bearer ${headertoken}`}})
   .then(res => {
-      this.setState(res.data.country);
+      this.setState(res.data.city);
     }).catch(function (error) {
       console.log(error);
  });
@@ -49,15 +49,15 @@ setLgShow=(bool)=>{
   this.setState({lgShow:bool})
 }
 
-CountryTableData() {
-  return this.state.countrylist.map((user, index) => {
-     const { _id,country_code, country_name} = user //destructuring
+CityTableData() {
+  return this.state.citylist.map((user, index) => {
+     const { _id,country_id, city_name} = user //destructuring
      return (
         <tr key={index}>
            <td>{index+1}</td>
-           <td>{country_code}</td>
-           <td>{country_name}</td>
-           <td><i className="fa fa-pencil-square-o"   aria-hidden="true" onClick={()=>this.countryEdit(_id)}>Edit</i></td>
+           <td>{country_id}</td>
+           <td>{city_name}</td>
+           <td><i className="fa fa-pencil-square-o"   aria-hidden="true" onClick={()=>this.cityEdit(_id)}>Edit</i></td>
         </tr>
      )
   });
@@ -71,7 +71,7 @@ handleSubmit= (event)=> {
   if (this.validator.allValid()) {
      const headertoken = localStorage.getItem("token"); 
      
-     const url= this.state.id ? this.ApiUrl+`/user/country/update/${this.state.id}`:this.ApiUrl+`/user/country/create`;
+     const url= this.state.id ? this.ApiUrl+`/user/city/update/${this.state.id}`:this.ApiUrl+`/user/city/create`;
      
      axios.post(url, this.state,{headers:{'Authorization': `Bearer ${headertoken}`}})
        .then(res => {
@@ -100,19 +100,19 @@ render() {
     <div>
       <Menu/>
         <div className="container">
-        <h3>CountryList</h3>
+        <h3>CityList</h3>
         <Button type="button" onClick={()=>this.setLgShow(true)}><i className="fa fa-plus" ></i>Add</Button>
           <table className="table table-bordered">
             <thead>
               <tr>
                 <th>Sno</th>
-                <th>Country Code</th>
+                <th>Country ID</th>
                 <th>Country Name</th>
                 <th>Action</th>
               </tr>
             </thead>
             <tbody>
-             {this.CountryTableData()}
+             {this.CityTableData()}
             </tbody>
           </table>
         
@@ -130,14 +130,14 @@ render() {
                         <Form.Row>
                     
                             <Form.Group as={Col}  controlId="formGroupEmail">
-                            <Form.Label>Country Code</Form.Label>
-                            <Form.Control type="text" name="country_code" placeholder="Enter Country Code" value={this.state.country_code} onChange={this.handleChange}/>
+                            <Form.Label>Country Name</Form.Label>
+                            <Form.Control type="text" name="country_id" placeholder="Enter Country Code" value={this.state.country_id} onChange={this.handleChange}/>
                             </Form.Group>
                     
                     
                             <Form.Group as={Col} controlId="formGroupEmail">
-                            <Form.Label >Country Name</Form.Label>
-                            <Form.Control  type="text" name="country_name" placeholder="Enter Country Name" value={this.state.country_name} onChange={this.handleChange}/>
+                            <Form.Label >City Name</Form.Label>
+                            <Form.Control  type="text" name="city_name" placeholder="Enter Country Name" value={this.state.city_name} onChange={this.handleChange}/>
                             </Form.Group>
                     
                     </Form.Row>
@@ -161,4 +161,4 @@ render() {
 
 } 
 
-export default CountryList
+export default CityList

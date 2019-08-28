@@ -9,6 +9,7 @@ import Register from './Components/Auth/register';
 import Dashboard from './Components/Admin/dashboard';
 import Userlist from './Components/Admin/users/userlist';
 import Countrylist from './Components/Admin/country/countrylist';
+import Citylist from './Components/Admin/city/citylist';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import * as serviceWorker from './serviceWorker';
@@ -24,6 +25,7 @@ const routing = (
         <PrivateRoute  path="/dashboard" component={Dashboard} />
         <PrivateRoute  path="/userlist" component={Userlist} />
         <PrivateRoute  path="/countrylist" component={Countrylist} />
+        <PrivateRoute  path="/citylist" component={Citylist} />
         </Switch>
       </div>
     </Router>
