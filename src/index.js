@@ -14,6 +14,9 @@ import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import 'font-awesome/css/font-awesome.min.css';
 import * as serviceWorker from './serviceWorker';
 import dotenv from 'dotenv'
+import {createStore} from 'redux';
+import studentReducer from './reducers/studentReducer';
+import {Provider} from 'react-redux'
 
 const routing = (
     <Router >
@@ -31,7 +34,19 @@ const routing = (
     </Router>
   )
 
-ReactDOM.render(routing, document.getElementById('root'));
+  let initialState = [];
+
+if( localStorage.getItem("students") === null){
+console.log("pavan");
+localStorage.setItem('students',JSON.stringify(initialState));
+}else{ 
+console.log("sai");
+
+initialState = JSON.parse(localStorage.getItem('students'));
+}
+const store = createStore(studentReducer);
+
+ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.

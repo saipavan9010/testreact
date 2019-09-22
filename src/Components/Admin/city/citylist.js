@@ -12,6 +12,7 @@ constructor(props){
   super(props);
   this.state = {
     citylist:[],
+    countrylist:[],
     lgShow:false,
     setLgShow:false,id: '',country_id: '',city_name:''
   };
@@ -22,6 +23,7 @@ constructor(props){
 
 componentWillMount(){ 
 this.getData();
+this.Countrylist();
 }  
 
 getData(){
@@ -29,6 +31,16 @@ getData(){
   axios.get(this.ApiUrl+`/user/citylist`,{headers:{'Authorization': `Bearer ${headertoken}`}})
     .then(res => {
      this.setState({citylist:res.data.city_data,show: true});
+     }).catch(function (error) {
+      console.log(error);
+   });
+}
+
+Countrylist(){
+  const headertoken = localStorage.getItem("token");
+  return axios.get(this.ApiUrl+`/user/countrylist`,{headers:{'Authorization': `Bearer ${headertoken}`}})
+    .then(res => {
+     this.setState({countrylist:res.data.country_data,show: true});
      }).catch(function (error) {
       console.log(error);
    });
@@ -55,13 +67,28 @@ CityTableData() {
      return (
         <tr key={index}>
            <td>{index+1}</td>
-           <td>{country_id}</td>
+           <td>{country_id? country_id.country_name:""}</td>
            <td>{city_name}</td>
            <td><i className="fa fa-pencil-square-o"   aria-hidden="true" onClick={()=>this.cityEdit(_id)}>Edit</i></td>
         </tr>
      )
   });
 }
+
+countryload=(id)=>{
+  return this.state.countrylist.map((country, index) => {
+    const { _id,country_name} = country //destructuring
+   
+    return (
+       <option value={_id} >{country_name}</option>
+    )
+ });
+}
+
+
+
+
+
 
 handleChange= (event) => {
   this.setState({[event.target.name]: event.target.value});
@@ -129,15 +156,18 @@ render() {
                     <Form onSubmit={this.handleSubmit}>
                         <Form.Row>
                     
-                            <Form.Group as={Col}  controlId="formGroupEmail">
-                            <Form.Label>Country Name</Form.Label>
-                            <Form.Control type="text" name="country_id" placeholder="Enter Country Code" value={this.state.country_id} onChange={this.handleChange}/>
+                            <Form.Group as={Col} controlId="exampleForm.ControlSelect1">
+                              <Form.Label>Country</Form.Label>
+                              <Form.Control as="select" name="country_id" value={this.state.country_id} onChange={this.handleChange}>
+                                <option >--Please Select --</option>
+                                {this.countryload()}
+                              </Form.Control>
                             </Form.Group>
                     
                     
                             <Form.Group as={Col} controlId="formGroupEmail">
-                            <Form.Label >City Name</Form.Label>
-                            <Form.Control  type="text" name="city_name" placeholder="Enter Country Name" value={this.state.city_name} onChange={this.handleChange}/>
+                              <Form.Label >City Name</Form.Label>
+                              <Form.Control  type="text" name="city_name" placeholder="Enter Country Name" value={this.state.city_name} onChange={this.handleChange}/>
                             </Form.Group>
                     
                     </Form.Row>
