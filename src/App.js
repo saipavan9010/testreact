@@ -4,21 +4,31 @@ import './App.css';
 import StudentList from './StudentList.jsx';
 import {connect} from 'react-redux';
 import { bindActionCreators } from 'redux';
+import axios from 'axios';
 import {addStudent,deleteStudent,updateStudent,listStudent} from './actions/studentActions'
 
-class App extends Component {
+class App extends Component { 
   constructor(props)
   {
     super(props);
     this.addNewStudent = this.addNewStudent.bind(this);
     this.deleteStudent = this.deleteStudent.bind(this);
     this.editStudentSubmit = this.editStudentSubmit.bind(this);
+    this.ApiUrl=process.env.REACT_APP_API_URL;
     
   }
   componentWillMount(){
 this.props.listStudent([{id:1,name:'John Doe',grade:1,school:'React Redux School'},{id:2,name:'Jane Doe',grade:2,school:'React Redux School'}
 ,{id:3,name:'Terry Adams',grade:3,school:'React Redux School'},{id:4,name:'Jenny Smith',grade:4,school:'React Redux School'}]);
-  }
+
+axios.get(this.ApiUrl+`/users/userslist`)
+    .then(res => {
+      this.props.listStudent(res.data.data.user);
+     }).catch(function (error) {
+      console.log(error);
+   });
+
+}
   addNewStudent()
   {
     // console.log("pavan");

@@ -1,16 +1,16 @@
 const studentReducer = (state = [],action) => {
-    console.log(action.payload);
+   
     switch(action.type){
         
     
     case 'ADD_STUDENT':
     var stateCopy = [...state,action.payload];
-    localStorage.setItem('students',JSON.stringify(stateCopy));
+    
     return stateCopy
     
     case 'DELETE_STUDENT':
     var  stateCopy = state.filter( x => x.id !== action.payload);
-    localStorage.setItem('students',JSON.stringify(stateCopy));
+    
     return stateCopy
         
     case 'UPDATE_STUDENT':
@@ -25,18 +25,13 @@ const studentReducer = (state = [],action) => {
         }
         return student;
     })
-    localStorage.setItem('students',JSON.stringify(stateCopy));
+   
     return stateCopy
 
     case 'LIST_STUDENT':
             var stateCopy =action.payload;
-    localStorage.setItem('students',JSON.stringify(stateCopy));
-    console.log("pavan");
-         return stateCopy;
-
-
-
-    
+   
+         return stateCopy; 
     default:
         return state;
     }

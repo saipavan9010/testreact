@@ -44,7 +44,7 @@ console.log("sai");
 
 initialState = JSON.parse(localStorage.getItem('students'));
 }
-const store = createStore(studentReducer);
+const store = createStore(studentReducer,initialState);
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));
 

@@ -27,7 +27,7 @@ export function listStudent(student)
 {
     console.log(student)
     return {
-        type:'LIST_STUDENT',
+        type:'LIST_STUDENT', 
         payload:student
         }
 

@@ -32,12 +32,12 @@ export default class StudentItem extends Component {
     );
   }
   render() {
-    const {name,grade,school} = this.props.student;
+    const {first_name,grade,school} = this.props.student;
     return (
       this.state.isEdit === true ? (
         <tr className="bg-warning" key={this.props.index}>
           <td>
-            <input ref={nameInput => this.nameInput = nameInput} defaultValue ={name}/>
+            <input ref={nameInput => this.nameInput = nameInput} defaultValue ={first_name}/>
           </td>
           <td><input defaultValue={grade} ref={gradeInput => this.gradeInput = gradeInput}/>
           </td>
@@ -50,7 +50,7 @@ export default class StudentItem extends Component {
         </tr>
       ) : (
         <tr key={this.props.index}>
-          <td>{name}</td>
+          <td>{first_name}</td>
           <td>{grade}</td>
           <td>{school}</td>
           <td><button className="far fa-edit" onClick={this.editStudent}></button></td>
