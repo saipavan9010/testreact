@@ -35,15 +35,6 @@ const routing = (
   )
 
   let initialState = [];
-
-if( localStorage.getItem("students") === null){
-console.log("pavan");
-localStorage.setItem('students',JSON.stringify(initialState));
-}else{ 
-console.log("sai");
-
-initialState = JSON.parse(localStorage.getItem('students'));
-}
 const store = createStore(studentReducer,initialState);
 
 ReactDOM.render(<Provider store={store}><App /></Provider>, document.getElementById('root'));

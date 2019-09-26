@@ -34,7 +34,7 @@ export default class StudentItem extends Component {
   render() {
     const {first_name,grade,school} = this.props.student;
     return (
-      this.state.isEdit === true ? (
+  this.state.isEdit === true ? (
         <tr className="bg-warning" key={this.props.index}>
           <td>
             <input ref={nameInput => this.nameInput = nameInput} defaultValue ={first_name}/>
@@ -57,6 +57,7 @@ export default class StudentItem extends Component {
           <td><button className="fas fa-trash" onClick={this.deleteStudent}></button></td>
 </tr>
       )
+      
     );
   }
 }

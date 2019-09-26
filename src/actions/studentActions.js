@@ -1,4 +1,6 @@
-export function addStudent(student)
+import axios from 'axios';
+
+ function addStudent(student)
 {
     return {
     type:'ADD_STUDENT',
@@ -24,11 +26,19 @@ export function updateStudent(student)
 }
 
 export function listStudent(student)
-{
-    console.log(student)
-    return {
+{    return {
         type:'LIST_STUDENT', 
         payload:student
         }
 
 }
+
+
+
+export function AddData() {
+
+
+
+
+
+}    
